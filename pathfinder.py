@@ -114,8 +114,9 @@ def main():
     pygame.init()
     
     title = Text('PathFinder Algorithm', 50, (0, 0, 0), window_width/7, 50)
-    start_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 - 40, 150, 80, 'Start')
-    rules_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 + 80, 150, 80, 'Rules')
+    shift = 30
+    start_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 - 40 + shift, 150, 80, 'Start')
+    rules_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 + 80 + shift, 150, 80, 'Rules')
     creator = Text('By Joseph Evans', 25, (0, 0, 0), window_width/2 - 70, window_height - 50)
 
     show_menu = True
