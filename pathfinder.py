@@ -116,6 +116,7 @@ def main():
     title = Text('PathFinder Algorithm', 50, (0, 0, 0), window_width/7, 50)
     start_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 - 40, 150, 80, 'Start')
     rules_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 + 80, 150, 80, 'Rules')
+    creator = Text('By Joseph Evans', 25, (0, 0, 0), window_width/2 - 70, window_height - 50)
 
     show_menu = True
 
@@ -145,6 +146,7 @@ def main():
             title.draw(window)
             start_button.draw(window)
             rules_button.draw(window)
+            creator.draw(window)
             
             pygame.display.update()
 
