@@ -1,4 +1,4 @@
-from tkinter import N, messagebox, Tk
+from tkinter import messagebox, Tk
 import pygame
 import sys
 
