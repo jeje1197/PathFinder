@@ -1,7 +1,4 @@
-from ast import While
-from tkinter import W, messagebox, Tk
-from tracemalloc import start
-from turtle import width
+from tkinter import messagebox, Tk
 import pygame
 import sys
 
@@ -46,22 +43,31 @@ class Box:
         if self.y < rows - 1:
             self.neighbors.append(grid[self.x][self.y + 1])
 
-# Create grid
-for i in range(columns):
-    arr = []
-    for j in range(rows):
-        arr.append(Box(i,j))
-    grid.append(arr)
+def initialize_game():
+    grid.clear()
+    queue.clear()
+    path.clear()
 
-# Set Neighbors
-for i in range(columns):
-    for j in range(rows):
-        grid[i][j].set_neighbors()
+    # Create grid
+    for i in range(columns):
+        arr = []
+        for j in range(rows):
+            arr.append(Box(i,j))
+        grid.append(arr)
+
+    # Set Neighbors
+    for i in range(columns):
+        for j in range(rows):
+            grid[i][j].set_neighbors()
+
+
+initialize_game()
 
 start_box = grid[0][0]
 start_box.start = True
 start_box.visited = True
 queue.append(start_box)
+
 
 class Text():
     def __init__(self, text, size, color, x, y):
@@ -98,7 +104,6 @@ class Button:
         mouse_x = pygame.mouse.get_pos()[0]
         mouse_y = pygame.mouse.get_pos()[1]
         if (self.x <= mouse_x <= self.x + self.width) and (self.y <= mouse_y <= self.y + self.height):
-            # print("Button Clicked")
             return True
 
 def popup_message(title, message):
