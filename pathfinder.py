@@ -61,14 +61,6 @@ def initialize_game():
             grid[i][j].set_neighbors()
 
 
-initialize_game()
-
-start_box = grid[0][0]
-start_box.start = True
-start_box.visited = True
-queue.append(start_box)
-
-
 class Text():
     def __init__(self, text, size, color, x, y):
         self.text = text
@@ -116,36 +108,54 @@ def exit_event(event):
                 sys.exit()
 
 def main():
+    print("Log: Starting application.")
+    # Initialize data (grid, queue, path, start_box)
+    initialize_game()
+
+    start_box = grid[0][0]
+    start_box.start = True
+    start_box.visited = True
+    queue.append(start_box)
+
+    # Create pygame window
     pygame.init()
     
+    #Create menu elements
     title = Text('PathFinder Algorithm', 50, (0, 0, 0), window_width/7, 50)
     shift = 30
     start_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 - 40 + shift, 150, 80, 'Start')
     rules_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 + 80 + shift, 150, 80, 'Rules')
     creator = Text('By Joseph Evans', 25, (0, 0, 0), window_width/2 - 70, window_height - 50)
 
+    # Setup conditional
     show_menu = True
 
     begin_search = False
     target_box_set = False
     searching = True
     target_box = None
+    finished_program = False
 
     while True:
+
         # Main Menu
         while show_menu:
             for event in pygame.event.get():
-                # Quit window
+                # Quit window event
                 exit_event(event)
+
+                # Start button event
                 if start_button.isclicked(event):
                     show_menu = False
                 
+                # Rules button event
                 if rules_button.isclicked(event):
                     popup_message('Rules',
                     "How to Play:\n\n" +
                     "Left-click and drag the mouse to draw walls.\n" +
-                    "Right-click to choose target.\n" + 
-                    "Press any key to start search algorithm.")
+                    "Right-click to choose the target box.\n" + 
+                    "Press any key to start the search algorithm.\n" +
+                    "Once the search has completed, you can press any key to restart the program.")
 
             window.fill((80, 80, 80))
 
@@ -158,19 +168,19 @@ def main():
 
         # Main screen
         for event in pygame.event.get():
-            # Quit window
+            # Quit window event
             exit_event(event)
 
             # Mouse controls
             # Drag the mouse
-            if event.type == pygame.MOUSEMOTION:
+            if (event.type == pygame.MOUSEMOTION and event.buttons[0]) or (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
                 x = pygame.mouse.get_pos()[0]
                 y = pygame.mouse.get_pos()[1]
+
                 # Draw wall
-                if event.buttons[0]:
-                    i = x // box_width
-                    j = y // box_height
-                    grid[i][j].wall = True
+                i = x // box_width
+                j = y // box_height
+                grid[i][j].wall = True
 
             # Right-Click
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
@@ -195,9 +205,11 @@ def main():
                 current_box.visited = True
                 if current_box == target_box:
                     searching = False
+                    print("Log: Search finished. Found solution!")
                     while current_box.prior != start_box:
                         path.append(current_box.prior)
                         current_box = current_box.prior
+                    finished_program = True
                 else:
                     for neighbor in current_box.neighbors:
                         if not neighbor.queued and not neighbor.wall:
@@ -207,8 +219,10 @@ def main():
 
             else:
                 if searching:
+                    print("Log: Search finished. No solution found.")
                     popup_message("No solution", "There is no solution!")
                     searching = False
+                    finished_program = True
 
         window.fill((0, 0, 0))
 
@@ -231,8 +245,32 @@ def main():
                     box.draw(window, (90, 90, 90))
                 if box.target:
                     box.draw(window, (200, 200, 0))
-        
+
         pygame.display.update()
 
+        # Exit program update
+        if finished_program:
+            button_pressed = False
+            for event in pygame.event.get():
+                # Quit window event
+                exit_event(event)
+
+                # Keypress to restart
+                if event.type == pygame.KEYDOWN:
+                    button_pressed = True
+                    break
+
+            if button_pressed:
+                print("Log: Keypressed. Exiting loop.")
+                break
+            
+    
+    # Restart application if loop is broken by keypress
+    print("Log: Restarting application.")
+    main()
+
+        
 
 main()
+
+# Created by Joseph Evans
