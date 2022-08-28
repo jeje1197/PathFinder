@@ -121,7 +121,7 @@ def main():
     pygame.init()
     
     #Create menu elements
-    title = Text('PathFinder Algorithm', 50, (0, 0, 0), window_width/7, 50)
+    title = Text('Path Finder Algorithm', 50, (0, 0, 0), window_width/7, 50)
     shift = 30
     start_button = Button((0, 150, 0), window_width/2 - 75, window_height/3 - 40 + shift, 150, 80, 'Start')
     rules_button = Button((0, 150, 0), window_width/2 - 75, window_height/3 + 80 + shift, 150, 80, 'Rules')
@@ -135,6 +135,7 @@ def main():
     searching = True
     target_box = None
     finished_program = False
+    solution_found = False
 
     while True:
 
@@ -154,8 +155,8 @@ def main():
                     "How to Play:\n\n" +
                     "Left-click and drag the mouse to draw walls.\n" +
                     "Right-click to choose the target box.\n" + 
-                    "Press any key to start the search algorithm.\n" +
-                    "Once the search has completed, you can press any key to restart the program.")
+                    "Once you have chosen the target box, press any key to start the search algorithm.\n" +
+                    "Once the search has been completed, press any key to return to the main menu.")
 
             window.fill((125, 125, 125))
 
@@ -205,6 +206,8 @@ def main():
                 current_box.visited = True
                 if current_box == target_box:
                     searching = False
+                    solution_found = True
+                    show_result = True
                     print("Log: Search finished. Found solution!")
                     while current_box.prior != start_box:
                         path.append(current_box.prior)
@@ -220,8 +223,9 @@ def main():
             else:
                 if searching:
                     print("Log: Search finished. No solution found.")
-                    popup_message("No solution", "There is no solution!")
                     searching = False
+                    solution_found = False
+                    show_result = True
                     finished_program = True
 
         window.fill((0, 0, 0))
@@ -251,6 +255,10 @@ def main():
         # Exit program update
         if finished_program:
             button_pressed = False
+            if show_result:
+                popup_message("Result", 
+                    "Solution found!" if solution_found else "There is no solution!")
+                show_result = False
             for event in pygame.event.get():
                 # Quit window event
                 exit_event(event)
@@ -269,7 +277,6 @@ def main():
     print("Log: Restarting application.")
     main()
 
-        
 
 main()
 
