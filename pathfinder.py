@@ -123,8 +123,8 @@ def main():
     #Create menu elements
     title = Text('PathFinder Algorithm', 50, (0, 0, 0), window_width/7, 50)
     shift = 30
-    start_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 - 40 + shift, 150, 80, 'Start')
-    rules_button = Button((0, 100, 0), window_width/2 - 75, window_height/3 + 80 + shift, 150, 80, 'Rules')
+    start_button = Button((0, 150, 0), window_width/2 - 75, window_height/3 - 40 + shift, 150, 80, 'Start')
+    rules_button = Button((0, 150, 0), window_width/2 - 75, window_height/3 + 80 + shift, 150, 80, 'Rules')
     creator = Text('By Joseph Evans', 25, (0, 0, 0), window_width/2 - 70, window_height - 50)
 
     # Setup conditional
@@ -157,7 +157,7 @@ def main():
                     "Press any key to start the search algorithm.\n" +
                     "Once the search has completed, you can press any key to restart the program.")
 
-            window.fill((80, 80, 80))
+            window.fill((125, 125, 125))
 
             title.draw(window)
             start_button.draw(window)
@@ -229,7 +229,7 @@ def main():
         for i in range(columns):
             for j in range(rows):
                 box = grid[i][j]
-                box.draw(window, (50, 50, 50))
+                box.draw(window, (125, 125, 125))
 
                 if box.queued:
                     box.draw(window, (200, 0, 0))
@@ -242,7 +242,7 @@ def main():
                 if box.start:
                     box.draw(window, (0, 200, 200))
                 if box.wall:
-                    box.draw(window, (90, 90, 90))
+                    box.draw(window, (139, 69, 19))
                 if box.target:
                     box.draw(window, (200, 200, 0))
 
