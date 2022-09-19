@@ -10,7 +10,6 @@ such as:
 - TKinter
 
 2) Open the command line or terminal and run the python file. It should generate a GUI
-with a few options on it.
--
--
--
+with a two options on it.
+- Start: Click on this option to being game. It's recommended you check out the rules first.
+- Rules: This explains how to properly set the target and obstacles and run the algorithm.
